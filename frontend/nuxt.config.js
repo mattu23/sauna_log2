@@ -84,11 +84,11 @@ export default {
       local: {
         endpoints: {
           login: {
-            url: "/auth/login",
+            url: "/signin",
             method: "post",
           },
           logout: {
-            url: "/auth/logout",
+            url: "/logout",
             method: "post",
           },
           user: false,

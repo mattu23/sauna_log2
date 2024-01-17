@@ -53,7 +53,7 @@ export default {
   methods: {
     async getLogData() {
       try {
-        const response = await this.$axios.get(`${process.env.API_ENDPOINT}/saunalog/`);
+        const response = await this.$axios.get(`${process.env.API_ENDPOINT}/saunalog/`, {withCredentials: true});
         this.saunaLogs = response.data;
       } catch(error) {
         console.error(error);
@@ -61,7 +61,7 @@ export default {
       }
     },
     async fetchUserData() {
-      const response = await this.$axios.get(`${process.env.API_ENDPOINT}/auth/user`);
+      const response = await this.$axios.get(`${process.env.API_ENDPOINT}/getUser`);
       this.user = response.data;
     },
     async deleteLog(id) {

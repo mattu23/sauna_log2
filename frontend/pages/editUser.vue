@@ -68,12 +68,12 @@ export default {
   },
   methods: {
     async fetchUserData() {
-      const response = await this.$axios.get(`${process.env.API_ENDPOINT}/auth/user`);
+      const response = await this.$axios.get(`${process.env.API_ENDPOINT}/getUser`);
       this.user = response.data;
     },
     async updateUserData() {
       try{
-        await this.$axios.put(`${process.env.API_ENDPOINT}/auth/updateUserData/${this.user.id}`, this.user);
+        await this.$axios.put(`${process.env.API_ENDPOINT}/update-user/`, this.user);
         alert('ユーザー情報を編集しました。');
       } catch(error){
         console.error(error);
@@ -85,7 +85,7 @@ export default {
     async deleteUser() {
       if(confirm('本当にユーザーを削除しますか？')) {
         try {
-          await this.$axios.delete(`${process.env.API_ENDPOINT}/auth/delete/${this.user.id}`);
+          await this.$axios.delete(`${process.env.API_ENDPOINT}/delete-user/`);
           alert('ユーザー情報を削除しました。トップページに戻ります。');
           this.$router.push('/');
         } catch(error) {

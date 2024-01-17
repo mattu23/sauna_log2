@@ -78,7 +78,7 @@ export default {
   methods: {
     async createUser() {
       try {
-        await this.$axios.post(`${process.env.API_ENDPOINT}/auth/signup`, {
+        await this.$axios.post(`${process.env.API_ENDPOINT}/signup`, {
           username: this.user.name,
           email: this.user.email,
           password: this.user.password,
