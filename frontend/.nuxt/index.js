@@ -13,11 +13,11 @@ import { createStore } from './store.js'
 
 /* Plugins */
 
-import nuxt_plugin_plugin_0b62003b from 'nuxt_plugin_plugin_0b62003b' // Source: ./components/plugin.js (mode: 'all')
-import nuxt_plugin_plugin_1778a593 from 'nuxt_plugin_plugin_1778a593' // Source: ./vuetify/plugin.js (mode: 'all')
-import nuxt_plugin_axios_412e6bd1 from 'nuxt_plugin_axios_412e6bd1' // Source: ./axios.js (mode: 'all')
+import nuxt_plugin_plugin_4c68c9b5 from 'nuxt_plugin_plugin_4c68c9b5' // Source: ./components/plugin.js (mode: 'all')
+import nuxt_plugin_plugin_097e434e from 'nuxt_plugin_plugin_097e434e' // Source: ./vuetify/plugin.js (mode: 'all')
+import nuxt_plugin_axios_46cc1c4b from 'nuxt_plugin_axios_46cc1c4b' // Source: ./axios.js (mode: 'all')
 import nuxt_plugin_veevalidate_b83c3a38 from 'nuxt_plugin_veevalidate_b83c3a38' // Source: ../plugins/vee-validate.js (mode: 'all')
-import nuxt_plugin_plugin_4daf984d from 'nuxt_plugin_plugin_4daf984d' // Source: ./auth/plugin.js (mode: 'all')
+import nuxt_plugin_plugin_68018547 from 'nuxt_plugin_plugin_68018547' // Source: ./auth/plugin.js (mode: 'all')
 
 // Component: <ClientOnly>
 Vue.component(ClientOnly.name, ClientOnly)
@@ -212,24 +212,24 @@ async function createApp(ssrContext, config = {}) {
   }
   // Plugin execution
 
-  if (typeof nuxt_plugin_plugin_0b62003b === 'function') {
-    await nuxt_plugin_plugin_0b62003b(app.context, inject)
+  if (typeof nuxt_plugin_plugin_4c68c9b5 === 'function') {
+    await nuxt_plugin_plugin_4c68c9b5(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_plugin_1778a593 === 'function') {
-    await nuxt_plugin_plugin_1778a593(app.context, inject)
+  if (typeof nuxt_plugin_plugin_097e434e === 'function') {
+    await nuxt_plugin_plugin_097e434e(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_axios_412e6bd1 === 'function') {
-    await nuxt_plugin_axios_412e6bd1(app.context, inject)
+  if (typeof nuxt_plugin_axios_46cc1c4b === 'function') {
+    await nuxt_plugin_axios_46cc1c4b(app.context, inject)
   }
 
   if (typeof nuxt_plugin_veevalidate_b83c3a38 === 'function') {
     await nuxt_plugin_veevalidate_b83c3a38(app.context, inject)
   }
 
-  if (typeof nuxt_plugin_plugin_4daf984d === 'function') {
-    await nuxt_plugin_plugin_4daf984d(app.context, inject)
+  if (typeof nuxt_plugin_plugin_68018547 === 'function') {
+    await nuxt_plugin_plugin_68018547(app.context, inject)
   }
 
   // Lock enablePreview in context

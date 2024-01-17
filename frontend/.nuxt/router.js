@@ -4,14 +4,14 @@ import { normalizeURL, decode } from 'ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
-const _e178048c = () => interopDefault(import('../pages/editPassword.vue' /* webpackChunkName: "pages/editPassword" */))
-const _0ac7326a = () => interopDefault(import('../pages/editUser.vue' /* webpackChunkName: "pages/editUser" */))
-const _aa295f54 = () => interopDefault(import('../pages/list/index.vue' /* webpackChunkName: "pages/list/index" */))
-const _1d772118 = () => interopDefault(import('../pages/register.vue' /* webpackChunkName: "pages/register" */))
-const _09ae4812 = () => interopDefault(import('../pages/auth/login.vue' /* webpackChunkName: "pages/auth/login" */))
-const _7fb17c1a = () => interopDefault(import('../pages/auth/signUp.vue' /* webpackChunkName: "pages/auth/signUp" */))
-const _4284c3a6 = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
-const _2c9d703e = () => interopDefault(import('../pages/list/_id.vue' /* webpackChunkName: "pages/list/_id" */))
+const _5cce9434 = () => interopDefault(import('../pages/editPassword.vue' /* webpackChunkName: "pages/editPassword" */))
+const _9e77d438 = () => interopDefault(import('../pages/editUser.vue' /* webpackChunkName: "pages/editUser" */))
+const _75858560 = () => interopDefault(import('../pages/list/index.vue' /* webpackChunkName: "pages/list/index" */))
+const _7917f6dc = () => interopDefault(import('../pages/register.vue' /* webpackChunkName: "pages/register" */))
+const _157ac8f1 = () => interopDefault(import('../pages/auth/login.vue' /* webpackChunkName: "pages/auth/login" */))
+const _a0c5a340 = () => interopDefault(import('../pages/auth/signUp.vue' /* webpackChunkName: "pages/auth/signUp" */))
+const _e654061a = () => interopDefault(import('../pages/index.vue' /* webpackChunkName: "pages/index" */))
+const _5acb5890 = () => interopDefault(import('../pages/list/_id.vue' /* webpackChunkName: "pages/list/_id" */))
 
 const emptyFn = () => {}
 
@@ -26,35 +26,35 @@ export const routerOptions = {
 
   routes: [{
     path: "/editPassword",
-    component: _e178048c,
+    component: _5cce9434,
     name: "editPassword"
   }, {
     path: "/editUser",
-    component: _0ac7326a,
+    component: _9e77d438,
     name: "editUser"
   }, {
     path: "/list",
-    component: _aa295f54,
+    component: _75858560,
     name: "list"
   }, {
     path: "/register",
-    component: _1d772118,
+    component: _7917f6dc,
     name: "register"
   }, {
     path: "/auth/login",
-    component: _09ae4812,
+    component: _157ac8f1,
     name: "auth-login"
   }, {
     path: "/auth/signUp",
-    component: _7fb17c1a,
+    component: _a0c5a340,
     name: "auth-signUp"
   }, {
     path: "/",
-    component: _4284c3a6,
+    component: _e654061a,
     name: "index"
   }, {
     path: "/list/:id",
-    component: _2c9d703e,
+    component: _5acb5890,
     name: "list-id"
   }],
 
