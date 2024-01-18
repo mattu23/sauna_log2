@@ -1,34 +1,57 @@
 <template>
   <div id="app">
+    <v-app-bar app>
+      <v-toolbar-title>サウナリスト一覧</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-menu offset-y>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn text v-bind="attrs" v-on="on">{{ user.username }} ：マイページ</v-btn>
+      </template>
+      <v-list>
+        <v-list-item to="/editUser">
+          <v-list-item-title>ユーザー情報変更</v-list-item-title>
+        </v-list-item>
+        <v-list-item to="/editPassword">
+          <v-list-item-title>パスワード変更</v-list-item-title>
+        </v-list-item>
+        <v-list-item @click="deleteUser()">
+          <v-list-item-title>アカウント削除</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+    <v-btn text @click="logout()">ログアウト</v-btn>
+    </v-app-bar>
     <v-layout justify-center>
-      <v-card width="600px">
-        <h1> サウナリスト一覧</h1>
-        <h2 v-if="user">ようこそ、{{ user.username }} さん</h2>
-        <v-btn to="/register"  class="primary my-5" min-width="200" style="margin: 10px;">サウナログの新規登録</v-btn>
+      <v-card class="mx-auto"> 
+        <v-btn to="/register" class="primary my-5" min-width="200" style="margin: 10px;">サウナログの新規登録</v-btn>
         <v-container>
           <v-list dense>
             <v-list-item-group>
               <v-list-item v-for="log in saunaLogs" :key="log.id">
                 <v-list-item-content>
-                  <v-list-item-title style="font-size: 1.0em;">施設名：{{ log.name }}</v-list-item-title>
+                  <v-list-item-title  style="font-size: 16px;">{{ log.name }}</v-list-item-title> <!-- 文字サイズを調整 -->
                   <v-list-item-subtitle>エリア：{{ log.area }}</v-list-item-subtitle>
                   <v-list-item-subtitle>評価：{{ log.rank }}</v-list-item-subtitle>
                   <v-list-item-subtitle>コメント：{{ log.comment }}</v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-action>
-                  <v-btn :to="`/list/${log.id}`" color="green darken-1" text>編集</v-btn>
-                  <v-btn color="red darken-1" text @click="deleteLog(log.id)">削除</v-btn>
+                  <v-btn icon :to="`/list/${log.id}`">
+                    <v-icon color="green">mdi-pencil</v-icon>
+                  </v-btn>
+                  <v-btn icon @click="deleteLog(log.id)">
+                    <v-icon color="red">mdi-delete</v-icon>
+                  </v-btn>
                 </v-list-item-action>
               </v-list-item>
             </v-list-item-group>
           </v-list>
         </v-container>
-        <v-btn to="/editUser" dark color="green" min-width="100" style="margin: 10px;">ユーザーの編集</v-btn>
-        <v-btn dark color="red darken-1" @click="logout()" style="margin: 10px" >ログアウト</v-btn>
       </v-card>
     </v-layout>
   </div>
 </template>
+
+
 
 <script>
 
@@ -41,7 +64,7 @@ export default {
   data() {
     return {
       saunaLogs: [],
-      user: null
+      user: {}
     };
   },
   created() {
@@ -65,13 +88,15 @@ export default {
       this.user = response.data;
     },
     async deleteLog(id) {
-      try {
-        await this.$axios.delete(`${process.env.API_ENDPOINT}/saunalog/${id}`);
-        this.getLogData();
-        alert('データを削除しました。');
-      } catch(error) {
-        if(error.response && error.response.data && error.response.data.message) {
-          alert(`エラー： ${error.response.data.message}`)
+      if(confirm('本当にデータを削除しますか？')) {
+        try {
+          await this.$axios.delete(`${process.env.API_ENDPOINT}/saunalog/${id}`);
+          this.getLogData();
+          alert('データを削除しました。');
+        } catch(error) {
+          if(error.response && error.response.data && error.response.data.message) {
+            alert(`エラー： ${error.response.data.message}`)
+          }
         }
       }
     },
@@ -86,7 +111,20 @@ export default {
           alert(`エラー： ${error.response.data.message}`)
         }
       }
-    }
+    },
+    async deleteUser() {
+      if(confirm('本当にユーザーを削除しますか？')) {
+        try {
+          await this.$axios.delete(`${process.env.API_ENDPOINT}/delete-user/`);
+          alert('ユーザー情報を削除しました。トップページに戻ります。');
+          this.$router.push('/');
+        } catch(error) {
+          alert('削除できませんでした。もう一度お試しください。');
+        }
+      } else {
+        // ユーザーがキャンセルを選択した場合、何もしない
+      }
+    },
   }
 }  
 </script>

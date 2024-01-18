@@ -2,29 +2,20 @@
   <v-layout align-center justify-center>
     <v-card elevation="16" width="600px" class="mx-auto mt-5" shaped>
       <v-card-title>
-        <h2 class="mx-auto">パスワードの編集</h2>
+        <h2 class="mx-auto">パスワード変更</h2>
       </v-card-title>
       <v-card-text>
         <v-form>
           <v-text-field
-            prepend-icon="mdi-lock"
             label="現在のパスワード"
             v-model="password"
-            :type="showPassword ? 'text' : 'password'"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="showPassword = !showPassword"
           ></v-text-field>
           <v-text-field
-            prepend-icon="mdi-lock"
             label="新しいパスワード"
             v-model="newPassword"
-            :type="showNewPassword ? 'text' : 'password'"
-            :append-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            @click:append="showNewPassword = !showNewPassword"
             :rules="passwordRules"
           ></v-text-field>
           <v-text-field
-            prepend-icon="mdi-lock"
             label="新しいパスワードの確認"
             v-model="newPasswordConfirm"
             :type="showNewPasswordConfirm ? 'text' : 'password'"
@@ -35,7 +26,7 @@
           <br />
           <v-card-actions>
             <v-btn dark color="green" @click="updateUserPassword">編集</v-btn>
-            <v-btn to="/editUser">戻る</v-btn>
+            <v-btn to="/list">戻る</v-btn>
           </v-card-actions>
         </v-form>
       </v-card-text>

@@ -4,7 +4,7 @@
   <v-layout align-center justify-center>
     <v-card elevation="16" width="600px" class="mx-auto mt-5" color="" shaped>
       <v-card-title>
-        <h2 class="mx-auto">登録ログを編集</h2>
+        <h2 class="mx-auto">登録データの編集</h2>
       </v-card-title>
       <v-card-text>
         <v-form>
