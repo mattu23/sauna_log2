@@ -43,7 +43,8 @@ class AuthController extends Controller
     // ログイン中のユーザー情報を取得するコントローラーメソッド
     public function getUser(Request $request)
     {
-      return $request->user();
+      $userId = $request->user()->id;
+      return $this->userService->getUserById($userId);
     }
 
     public function updateUser(UpdateUserRequest $request)

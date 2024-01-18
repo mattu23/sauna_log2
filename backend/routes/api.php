@@ -25,7 +25,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/logout', 'logout')->middleware('auth:sanctum');
 
     // ユーザー情報の取得
-    Route::get('/getUser', 'getUser');
+    Route::get('/getUser', 'getUser')->middleware('auth:sanctum');;
 
     // ユーザー情報の更新
     Route::put('/update-user', 'updateUser')->middleware('auth:sanctum');
