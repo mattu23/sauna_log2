@@ -4,6 +4,12 @@ export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
+   // サーバーの設定
+   server: {
+    host: '0.0.0.0', // サーバーをすべてのネットワークインターフェースで利用可能にする
+    port: 3000 // ポート番号（必要に応じて変更可能）
+  },
+
   // Target: https://go.nuxtjs.dev/config-target
   target: 'server',
 
@@ -46,7 +52,7 @@ export default {
     '@nuxtjs/auth',
   ],
   axios: {
-    baseURL: process.env.API_BASE_URL,
+    baseURL: 'http://52.198.90.29:8000/api',
     credentials: true, // クロスオリジンのリクエストで認証情報（クッキー等）を含む
   },
   plugins: [
