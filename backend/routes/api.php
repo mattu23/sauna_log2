@@ -11,27 +11,35 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // SaunalogController ルート
-Route::middleware('auth:sanctum')->apiResource('saunalog', SaunalogController::class);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/saunalog', [SaunalogController::class, 'getUserSaunaLogs']);
+    Route::get('/saunalog/{id}', [SaunalogController::class, 'getSaunalogById']);
+    Route::post('/saunalog', [SaunalogController::class, 'createSaunalog']);
+    Route::put('/saunalog/{id}', [SaunalogController::class, 'updateSaunalogById']);
+    Route::delete('/saunalog/{id}', [SaunalogController::class, 'destroySaunalogById']);
+});
+
+
 
 // AuthControllerのルート
 Route::controller(AuthController::class)->group(function () {
     // ユーザー登録
-    Route::post('/signup', 'signup');
+    Route::post('/signup', 'signUp');
 
     // ログイン
-    Route::post('/signin', 'signin');
+    Route::post('/signin', 'signIn');
 
     // ログアウト
     Route::post('/logout', 'logout')->middleware('auth:sanctum');
 
     // ユーザー情報の取得
-    Route::get('/getUser', 'getUser')->middleware('auth:sanctum');;
+    Route::get('/getUser', 'getUserData')->middleware('auth:sanctum');;
 
     // ユーザー情報の更新
-    Route::put('/update-user', 'updateUser')->middleware('auth:sanctum');
+    Route::put('/update-user', 'updateUserData')->middleware('auth:sanctum');
 
     // パスワードの更新
-    Route::put('/update-password', 'updatePassword')->middleware('auth:sanctum');
+    Route::put('/update-password', 'updateUserPassword')->middleware('auth:sanctum');
 
     // ユーザーの削除
     Route::delete('/delete-user', 'deleteUser')->middleware('auth:sanctum');

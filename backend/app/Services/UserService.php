@@ -34,7 +34,7 @@ class UserService
       return $user;
     }
 
-    public function updateUser($userId, array $data): User
+    public function updateUseData($userId, array $data): User
     {
       $user = $this->getUserById($userId);
       $user->update($data);
