@@ -10,16 +10,21 @@ use Illuminate\Database\Eloquent\Collection;
 
 class SaunalogService 
 {
+
+    //ユーザーに紐づくサウナログ一覧の表示
     public function getLogsByUser($userId): Collection 
     {
       return Saunalog::where('userId', $userId)->get();
     }
 
+
+    //特定のサウナログの表示
     public function findOne($id): ?Saunalog
     {
       return Saunalog::find($id);
     }
 
+    //サウナログの新規作成
     public function create(array $data, User $user): Saunalog
     {
       $saunalog = new Saunalog($data);
@@ -29,6 +34,7 @@ class SaunalogService
       return $saunalog;
     }
 
+    //サウナログの編集
     public function updateSaunalog($id, array $data): Saunalog
     {
       $saunalog = Saunalog::find($id);
@@ -36,6 +42,7 @@ class SaunalogService
       return $saunalog;
     }
 
+    //サウナログの削除
     public function delete($id): bool
     {
       $saunalog = Saunalog::find($id);

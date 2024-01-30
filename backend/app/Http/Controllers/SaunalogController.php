@@ -20,14 +20,14 @@ class SaunalogController extends Controller
         $this->saunalogService = $saunalogService;
     }
 
-    //サウナログ一覧の表示
+    //ユーザーに紐づくサウナログ一覧の表示
     public function getUserSaunaLogs(Request $request)
     {
         $userId = $request->user()->id;
         return $this->saunalogService->getLogsByUser($userId);
     }
 
-    //特定のサウナログの表示（編集時fetchで使用）
+    //特定のサウナログの表示
     public function getSaunalogById($id)
     {
         return $this->saunalogService->findOne($id);

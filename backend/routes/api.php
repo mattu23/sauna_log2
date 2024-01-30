@@ -10,19 +10,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// SaunalogController ルート
-Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/saunalog', [SaunalogController::class, 'getUserSaunaLogs']);
-    Route::get('/saunalog/{id}', [SaunalogController::class, 'getSaunalogById']);
-    Route::post('/saunalog', [SaunalogController::class, 'createSaunalog']);
-    Route::put('/saunalog/{id}', [SaunalogController::class, 'updateSaunalogById']);
-    Route::delete('/saunalog/{id}', [SaunalogController::class, 'destroySaunalogById']);
-});
-
-
 
 // UserControllerのルート
 Route::controller(UserController::class)->group(function () {
+
     // ユーザー登録
     Route::post('/signup', 'signUp');
 
@@ -43,4 +34,24 @@ Route::controller(UserController::class)->group(function () {
 
     // ユーザーの削除
     Route::delete('/delete-user', 'deleteUser')->middleware('auth:sanctum');
+});
+
+
+// SaunalogControllerのルート
+Route::middleware('auth:sanctum')->group(function () {
+
+    //ユーザーに紐づくサウナログの一覧の表示
+    Route::get('/saunalog', [SaunalogController::class, 'getUserSaunaLogs']);
+
+    //特定のサウナログの表示
+    Route::get('/saunalog/{id}', [SaunalogController::class, 'getSaunalogById']);
+
+    //サウナログの新規作成
+    Route::post('/saunalog', [SaunalogController::class, 'createSaunalog']);
+
+    //サウナログの編集
+    Route::put('/saunalog/{id}', [SaunalogController::class, 'updateSaunalogById']);
+
+    //サウナログの削除
+    Route::delete('/saunalog/{id}', [SaunalogController::class, 'destroySaunalogById']);
 });

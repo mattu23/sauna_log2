@@ -15,12 +15,12 @@ class UserController extends Controller
 {
     protected $userService;
 
-    //
     public function __construct(UserService $userService)
     {
         $this->userService = $userService;
     }
 
+    
     //ユーザーの新規登録
     public function signUp(CreateUserRequest $request)
     {
