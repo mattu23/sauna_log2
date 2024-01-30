@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SaunalogController;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -21,8 +21,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 
-// AuthControllerのルート
-Route::controller(AuthController::class)->group(function () {
+// UserControllerのルート
+Route::controller(UserController::class)->group(function () {
     // ユーザー登録
     Route::post('/signup', 'signUp');
 
