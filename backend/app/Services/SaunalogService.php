@@ -19,13 +19,13 @@ class SaunalogService
 
 
     //特定のサウナログの表示
-    public function findOne($id): ?Saunalog
+    public function getLogById($id): ?Saunalog
     {
       return Saunalog::find($id);
     }
 
     //サウナログの新規作成
-    public function create(array $data, User $user): Saunalog
+    public function createLog(array $data, User $user): Saunalog
     {
       $saunalog = new Saunalog($data);
       $saunalog->user()->associate($user);
@@ -35,7 +35,7 @@ class SaunalogService
     }
 
     //サウナログの編集
-    public function updateSaunalog($id, array $data): Saunalog
+    public function updateLogById($id, array $data): Saunalog
     {
       $saunalog = Saunalog::find($id);
       $saunalog->update($data);
@@ -43,7 +43,7 @@ class SaunalogService
     }
 
     //サウナログの削除
-    public function delete($id): bool
+    public function deleteLogById($id): bool
     {
       $saunalog = Saunalog::find($id);
       return $saunalog->delete();

@@ -21,34 +21,34 @@ class SaunalogController extends Controller
     }
 
     //ユーザーに紐づくサウナログ一覧の表示
-    public function getUserSaunaLogs(Request $request)
+    public function getLogs(Request $request)
     {
         $userId = $request->user()->id;
         return $this->saunalogService->getLogsByUser($userId);
     }
 
     //特定のサウナログの表示
-    public function getSaunalogById($id)
+    public function getLogById($id)
     {
-        return $this->saunalogService->findOne($id);
+        return $this->saunalogService->getLogById($id);
     }
 
     //サウナログの新規作成
-    public function createSaunalog(CreateSaunalogRequest $request)
+    public function create(CreateSaunalogRequest $request)
     {
         $user = $request->user();
-        return $this->saunalogService->create($request->validated(), $user);
+        return $this->saunalogService->createLog($request->validated(), $user);
     }
 
     //特定のサウナログの編集
-    public function updateSaunalogById($id, UpdateSaunalogRequest $request)
+    public function update($id, UpdateSaunalogRequest $request)
     {
-        return $this->saunalogService->updateSaunalog($id, $request->validated());
+        return $this->saunalogService->updateLogById($id, $request->validated());
     }
 
     //特定のサウナログの削除
-    public function destroySaunalogById($id)
+    public function delete($id)
     {
-        return $this->saunalogService->delete($id);
+        return $this->saunalogService->deleteLogById($id);
     }
 }

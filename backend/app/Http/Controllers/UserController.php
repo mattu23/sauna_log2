@@ -46,31 +46,31 @@ class UserController extends Controller
     }
 
     //ログイン中のユーザー情報を取得する
-    public function getUserData(Request $request)
+    public function get(Request $request)
     {
       $userId = $request->user()->id;
       return $this->userService->getUserById($userId);
     }
 
     //ユーザー情報（PWを除く）の編集
-    public function updateUserData(UpdateUserRequest $request)
+    public function update(UpdateUserRequest $request)
     {
-      $user = $this->userService->updateUserData(Auth::id(), $request->validated());
+      $user = $this->userService->updateUser(Auth::id(), $request->validated());
       return response()->json($user, 200);
     }
 
     //ユーザーパスワードの編集
-    public function updateUserPassword(updatePasswordRequest $request)
+    public function updatePassword(updatePasswordRequest $request)
     {
       $currentPassword = $request->input('password');
       $newPassword = $request->input('newPassword');
 
-      $user = $this->userService->updateUserPassword(Auth::id(), $currentPassword, $newPassword);
+      $user = $this->userService->updatePassword(Auth::id(), $currentPassword, $newPassword);
       return response()->json(['message'=> 'パスワードが更新されました。'], 200);
     }
 
     //ユーザー自体の削除
-    public function deleteUser()
+    public function delete()
     {
       $this->userService->deleteUser(Auth::id());
       return response()->json(['message'=> 'ユーザーが削除されました。'], 200);

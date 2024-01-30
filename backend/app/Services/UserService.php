@@ -37,7 +37,7 @@ class UserService
     }
 
     //ユーザー情報（PWを除く）の編集
-    public function updateUseData($userId, array $data): User
+    public function updateUser($userId, array $data): User
     {
       $user = $this->getUserById($userId);
       $user->update($data);
@@ -45,7 +45,7 @@ class UserService
     }
 
     //パスワードの編集
-    public function updateUserPassword($userId, $currentPassword, $newPassword)
+    public function updatePassword($userId, $currentPassword, $newPassword)
     {
       $user = $this->getUserById($userId);
 
