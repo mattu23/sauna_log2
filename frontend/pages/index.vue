@@ -10,7 +10,8 @@
           <v-card-actions>
             <v-row style="text-align: center">
               <v-col>
-                <v-btn to="/auth/login"  class="primary my-5" min-width="300">ログインまたは新規登録</v-btn>
+                <v-btn to="/auth/login"  class="primary my-5" min-width="300">ログイン</v-btn>
+                <v-btn to="/auth/signUp"  class="primary my-5" min-width="300">新規登録</v-btn>
               </v-col>
             </v-row>
           </v-card-actions>

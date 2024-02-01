@@ -11,12 +11,13 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UserService
 {
-
+    //新規ユーザー作成
     public function createUser(array $data): User
     {
       return User::createUser($data);
     }
 
+    //ログイン
     public function loginUser(array $credentials)
     {
       if(!Auth::attempt($credentials)) {
@@ -25,6 +26,7 @@ class UserService
       return Auth::user();
     }
 
+    //ログイン中のユーザー情報を取得する
     public function getUserById($userId): User
     {
       $user = User::find($userId);
@@ -34,6 +36,7 @@ class UserService
       return $user;
     }
 
+    //ユーザー情報（PWを除く）の編集
     public function updateUser($userId, array $data): User
     {
       $user = $this->getUserById($userId);
@@ -41,7 +44,8 @@ class UserService
       return $user;
     }
 
-    public function updateUserPassword($userId, $currentPassword, $newPassword)
+    //パスワードの編集
+    public function updatePassword($userId, $currentPassword, $newPassword)
     {
       $user = $this->getUserById($userId);
 
@@ -54,6 +58,7 @@ class UserService
       return $user;
     }
 
+    //ユーザーの削除
     public function deleteUser($userId)
     {
       $user = $this->getUserById($userId);

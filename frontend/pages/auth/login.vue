@@ -29,9 +29,6 @@
             <v-btn to="/" >戻る</v-btn>
           </v-card-actions>
         </v-form>
-        <p>
-          新規登録は<nuxt-link to="/auth/signup">こちら</nuxt-link>
-        </p>
       </v-card-text>
     </v-card>
   </v-layout>
