@@ -48,8 +48,13 @@ class UserController extends Controller
     //ユーザーのログアウト
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
-        return response()->json(['message' => 'ログアウトしました。'], 200);
+        try {
+            $request->user()->currentAccessToken()->delete();
+            return response()->json(['message' => 'ログアウトしました。'], 200);
+        } catch(\Exception $e) {
+            // ログアウト処理中に何らかの問題が発生した場合
+            return response()->json(['message' => 'ログアウト処理中に問題が発生しました。'], 500);
+        }
     }
 
     //ログイン中のユーザー情報を取得する
