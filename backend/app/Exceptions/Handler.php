@@ -7,24 +7,32 @@ use Throwable;
 
 class Handler extends ExceptionHandler
 {
-    /**
-     * The list of the inputs that are never flashed to the session on validation exceptions.
-     *
-     * @var array<int, string>
-     */
     protected $dontFlash = [
         'current_password',
         'password',
         'password_confirmation',
     ];
 
-    /**
-     * Register the exception handling callbacks for the application.
-     */
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
             //
         });
     }
+
+    public function render($request, Throwable $exception)
+    {
+        // カスタム例外のハンドリング
+        if ($exception instanceof \App\Exceptions\CustomException) {
+            return response()->json(['message' => $exception->getMessage()], 500);
+        } elseif ($exception instanceof \App\Exceptions\AuthenticationException) {
+            return response()->json(['message' => $exception->getMessage()], 401);
+        } elseif ($exception instanceof \App\Exceptions\InvalidPasswordException) {
+            return response()->json(['message' => $exception->getMessage()], 400);
+        }
+
+        // その他の例外に対するデフォルトの処理を維持
+        return parent::render($request, $exception);
+    }
+
 }
