@@ -25,7 +25,7 @@ class UserService
     public function loginUser(array $credentials)
     {
       if(!Auth::attempt($credentials)) {
-        throw new \App\Exceptions\AuthenticationException('メールアドレスかパスワードが誤っています。');
+        throw new \App\Exceptions\AuthenticationException();
       }
       return Auth::user();
     }
