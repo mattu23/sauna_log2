@@ -29,6 +29,8 @@ class Handler extends ExceptionHandler
             return response()->json(['message' => $exception->getMessage()], 401);
         } elseif ($exception instanceof \App\Exceptions\InvalidPasswordException) {
             return response()->json(['message' => $exception->getMessage()], 400);
+        } elseif ($exception instanceof \App\Exceptions\NotFoundException) {
+            return response()->json(['message' => $exception->getMessage()], 404);
         }
 
         // その他の例外に対するデフォルトの処理を維持
