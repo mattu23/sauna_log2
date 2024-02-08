@@ -25,7 +25,7 @@ class UserService
     public function loginUser(array $credentials)
     {
       if(!Auth::attempt($credentials)) {
-        throw new \App\Exceptions\AuthenticationException();
+        throw new \App\Exceptions\AuthenticationException('認証に失敗しました。');
       }
       return Auth::user();
     }

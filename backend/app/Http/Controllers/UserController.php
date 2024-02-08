@@ -28,7 +28,7 @@ class UserController extends Controller
           $user = $this->userService->createUser($request->validated());
           return response()->json($user, 201);
       } catch(\App\Exceptions\CustomException $e) {
-          return response()->json(['message' => $e->getMessage()], 500);
+          return response()->json(['message' => $e->getMessage()], 400);
       }
     }
 
@@ -41,7 +41,7 @@ class UserController extends Controller
             $token = $user->createToken('authToken')->plainTextToken;
             return response()->json(['token' => $token, 'user' => $user], 200);
         } catch(\App\Exceptions\AuthenticationException $e) {
-            return response()->json(['message' => $e->getMessage()], 401); 
+            return response()->json(['message' => $e->getMessage()], 403); 
         } 
       }
 
@@ -53,7 +53,7 @@ class UserController extends Controller
             return response()->json(['message' => 'ログアウトしました。'], 200);
         } catch(\Exception $e) {
             // ログアウト処理中に何らかの問題が発生した場合
-            return response()->json(['message' => 'ログアウト処理中に問題が発生しました。'], 500);
+            return response()->json(['message' => 'ログアウト処理中に問題が発生しました。'], 400);
         }
     }
 
@@ -76,7 +76,7 @@ class UserController extends Controller
           $user = $this->userService->updateUser(Auth::id(), $request->validated());
           return response()->json($user, 200);
       } catch(\App\Exceptions\CustomException $e) {
-          return response()->json(['message' => $e->getMessage()], 500);
+          return response()->json(['message' => $e->getMessage()], 400);
       }
     }
 
@@ -89,7 +89,7 @@ class UserController extends Controller
           $user = $this->userService->updatePassword(Auth::id(), $currentPassword, $newPassword);
           return response()->json(['message'=> 'パスワードが更新されました。'], 200); 
       } catch(\App\Exceptions\InvalidPasswordException $e) {
-          return response()->json(['message' => $e->getMessage()], 400);
+          return response()->json(['message' => $e->getMessage()], 401);
       }
     }
 
@@ -100,7 +100,7 @@ class UserController extends Controller
           $this->userService->deleteUser(Auth::id());
           return response()->json(['message'=> 'ユーザーが削除されました。'], 200);
       } catch(\App\Exceptions\CustomException $e) {
-          return response()->json(['message' => $e->getMessage()], 500);
+          return response()->json(['message' => $e->getMessage()], 400);
       }
     }
 
