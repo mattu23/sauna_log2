@@ -29,7 +29,7 @@ class SaunalogController extends Controller
             $userId = $request->user()->id;
             return $this->saunalogService->getLogsByUser($userId);
         } catch(CustomException $e) {
-            return response()->json(['message' => 'ユーザーのサウナログの取得に失敗しました。'], 500);
+            return response()->json(['message' => 'ユーザーのサウナログの取得に失敗しました。'], 400);
         }
     }
 
@@ -43,7 +43,7 @@ class SaunalogController extends Controller
             } 
             return response()->json($log);   
         } catch(CustomException $e) {
-            return response()->json(['message' => '特定のサウナログの取得に失敗しました。'], 500);
+            return response()->json(['message' => '特定のサウナログの取得に失敗しました。'], 400);
         }
     }
 
@@ -54,7 +54,7 @@ class SaunalogController extends Controller
             $user = $request->user();
             return $this->saunalogService->createLog($request->validated(), $user);
         } catch(CustomException $e) {
-            return response()->json(['message' => 'サウナログの作成に失敗しました。'], 500);
+            return response()->json(['message' => 'サウナログの作成に失敗しました。'], 400);
         }
         
     }
@@ -65,7 +65,7 @@ class SaunalogController extends Controller
         try {
             return $this->saunalogService->updateLogById($id, $request->validated());
         } catch(CustomException $e) {
-            return response()->json(['message' => 'サウナログの編集に失敗しました。'], 500);
+            return response()->json(['message' => 'サウナログの編集に失敗しました。'], 400);
         }
     }
 
@@ -75,7 +75,7 @@ class SaunalogController extends Controller
         try {
             return $this->saunalogService->deleteLogById($id);
         } catch(CustomException $e) {
-            return response()->json(['message' => 'サウナログの削除中にエラーが発生しました。'], 500);
+            return response()->json(['message' => 'サウナログの削除中にエラーが発生しました。'], 400);
         }
     }
 }
