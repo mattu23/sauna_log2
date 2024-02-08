@@ -24,7 +24,7 @@ class Handler extends ExceptionHandler
     {
         // カスタム例外のハンドリング
         if ($exception instanceof \App\Exceptions\CustomException) {
-            return response()->json(['message' => $exception->getMessage()], 401);
+            return response()->json(['message' => $exception->getMessage()], 400);
         } elseif ($exception instanceof \App\Exceptions\AuthenticationException) {
             return response()->json(['message' => $exception->getMessage()], 403);
         } elseif ($exception instanceof \App\Exceptions\InvalidPasswordException) {
