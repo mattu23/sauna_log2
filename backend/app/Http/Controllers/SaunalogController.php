@@ -38,9 +38,6 @@ class SaunalogController extends Controller
     {
         try {
             $log = $this->saunalogService->getLogById($id);
-            if (!$log) {
-                return response()->json(['message' => '指定されたサウナログが見つかりません。'], 404);
-            } 
             return response()->json($log);   
         } catch(CustomException $e) {
             return response()->json(['message' => '特定のサウナログの取得に失敗しました。'], 400);
