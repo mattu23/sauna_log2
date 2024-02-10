@@ -6,8 +6,6 @@ use Exception;
 
 class InvalidPasswordException extends Exception
 {
-    public function __construct($message = "無効なパスワードです。", $code = 0, Exception $previous = null)
-    {
-        parent::__construct($message, $code, $previous);
-    }
+    protected $message = '認証に失敗しました。無効なパスワードです。';
+    protected $code = 401;
 }

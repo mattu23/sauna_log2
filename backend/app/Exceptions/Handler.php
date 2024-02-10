@@ -23,9 +23,9 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         // カスタム例外のハンドリング
-        if ($exception instanceof \App\Exceptions\CustomException) {
+        if ($exception instanceof \App\Exceptions\ValidationException) {
             return response()->json(['message' => $exception->getMessage()], 400);
-        } elseif ($exception instanceof \App\Exceptions\AuthenticationException) {
+        } elseif ($exception instanceof \App\Exceptions\ForbiddenException) {
             return response()->json(['message' => $exception->getMessage()], 403);
         } elseif ($exception instanceof \App\Exceptions\InvalidPasswordException) {
             return response()->json(['message' => $exception->getMessage()], 401);
