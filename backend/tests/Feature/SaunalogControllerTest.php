@@ -25,7 +25,7 @@ class SaunalogControllerTest extends TestCase
         //テスト中に指定したユーザーとして認証された状態を模擬
         $this->actingAs($user, 'web');
 
-        $logData = [
+        $saunalog = [
             'name' => 'サウナ東京',
             'area' => '東京都 港区',
             'rank' => 5,
@@ -33,11 +33,11 @@ class SaunalogControllerTest extends TestCase
         ];
 
         //指定されたルートに対してJSON形式のPOSTリクエストを送信。APIエンドポイントに対するHTTPリクエストをテスト
-        $response = $this->postJson('/api/saunalog', $logData);
+        $response = $this->postJson('/api/saunalog', $saunalog);
         //レスポンスのステータスコードが201（Created）であることを検証
         $response->assertStatus(201);
         //指定したデータがデータベースのsaunalogsテーブルに存在することを検証
-        $this->assertDatabaseHas('saunalogs', $logData);
+        $this->assertDatabaseHas('saunalogs', $saunalog);
     }
 
     //サウナログの新規作成のエラーテスト
@@ -51,7 +51,7 @@ class SaunalogControllerTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user, 'web');
         $saunalog = Saunalog::factory()->create([
-            'name' => 'テスト1',
+            'name' => '更新テスト',
             'area' => '東京',
             'rank' => 3,
             'comment' => '新規のサウナログ',
@@ -73,4 +73,23 @@ class SaunalogControllerTest extends TestCase
 
     // 指定されたIDのサウナログが見つからない場合のテスト
     /** @test */
+
+
+
+    //サウナログの削除が成功する場合のテスト
+    /** @test */
+    public function testDeleteSaunalogSuccessfully() {
+        $user = User::factory()->create();
+        $this->actingAs($user, 'web');
+        $saunalog = Saunalog::factory()->create([
+            'name' => '削除テスト',
+            'area' => '東京',
+            'rank' => 3,
+            'comment' => '新規のサウナログ',
+            'userId' => $user->id,
+        ]);
+        $response = $this->deleteJson("/api/saunalog/{$saunalog->id}");
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('saunalogs', ['id' => $saunalog->id]);
+    }
 }
