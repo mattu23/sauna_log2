@@ -74,13 +74,12 @@ class UserControllerTest extends TestCase
     {
         $testUser = User::factory()->create([
             'email' => 'test@example.com',
-            'password' => bcrypt('password1234'),
-        ]); 
-        $loginData = [
+            'password' => bcrypt('password1234'), 
+        ]);
+        $loginResponse = $this->postJson('/api/signin', [
             'email' => 'test@example.com',
             'password' => 'password1234',
-        ];
-        $loginResponse = $this->postJson('/api/signin', $loginData);
+        ]);
         // トークンを取得
         $token = $loginResponse->json('token');
         // トークンを使用してログアウトリクエストを送信
@@ -88,5 +87,32 @@ class UserControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $token,
         ])->postJson('/api/logout');        
         $logoutResponse->assertStatus(200);
+    }
+
+
+
+    //ログイン中のユーザー情報を取得する正常テスト
+    public function testGetSuccessfully() 
+    {
+        $testUser = User::factory()->create([
+            'email' => 'test@example.com',
+            'password' => bcrypt('password1234'), 
+        ]);
+        $loginResponse = $this->postJson('/api/signin', [
+            'email' => 'test@example.com',
+            'password' => 'password1234',
+        ]);
+        // トークンを取得
+        $token = $loginResponse->json('token');
+        // トークンを使用してログアウトリクエストを送信
+        $fetchUserResponse = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->getJson('/api/get');
+        $fetchUserResponse->assertStatus(200);
+        // レスポンスに期待するユーザー情報が含まれていることを検証
+        $fetchUserResponse->assertJson([
+            'id' => $user->id,
+            'email' => $user->email,
+        ]);
     }
 }
