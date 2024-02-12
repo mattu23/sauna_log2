@@ -32,4 +32,38 @@ class UserControllerTest extends TestCase
             'email' => 'test@example.com'
         ]);
     }
+
+
+
+    //ユーザーログインの正常テスト
+    public function testSignInSuccessfully()
+    {
+        //テスト用ユーザーの作成
+        $testUser = User::factory()->create([
+            'email' => 'test@example.com',
+            'password' => bcrypt('password1234'),
+        ]); 
+        //ログインデータ
+        $loginData = [
+            'email' => 'test@example.com',
+            'password' => 'password1234',
+        ];
+        //ログインリクエストを送信
+        $response = $this->postJson('/api/signin', $loginData);
+        //レスポンスステータスコードが200であることを検証
+        $response->assertStatus(200);
+        //レスポンスにトークンとユーザー情報が含まれていることを検証
+        $response->assertJsonStructure([
+            'token',
+            'user' => [
+                'id',
+                'username',
+                'email',
+            ],
+        ]);
+        //データベースにユーザーが存在することを検証
+        $this->assertDatabaseHas('users', [
+            'email' => 'test@example.com',
+        ]);
+    }
 }
