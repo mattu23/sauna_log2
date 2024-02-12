@@ -17,7 +17,7 @@ class SaunalogControllerTest extends TestCase
         //テスト用のユーザーデータをデータベースに実際に挿入
         $user = User::factory()->create();
         //テスト中に指定したユーザーとして認証された状態を模擬
-        $this->actingAs($user, 'api');
+        $this->actingAs($user, 'web');
 
         $logData = [
             'name' => 'サウナ東京',
