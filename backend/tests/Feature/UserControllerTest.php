@@ -66,4 +66,27 @@ class UserControllerTest extends TestCase
             'email' => 'test@example.com',
         ]);
     }
+
+
+
+    //ユーザーログアウトの正常テスト
+    public function testLogoutSuccessfully() 
+    {
+        $testUser = User::factory()->create([
+            'email' => 'test@example.com',
+            'password' => bcrypt('password1234'),
+        ]); 
+        $loginData = [
+            'email' => 'test@example.com',
+            'password' => 'password1234',
+        ];
+        $loginResponse = $this->postJson('/api/signin', $loginData);
+        // トークンを取得
+        $token = $loginResponse->json('token');
+        // トークンを使用してログアウトリクエストを送信
+        $logoutResponse = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->postJson('/api/logout');        
+        $logoutResponse->assertStatus(200);
+    }
 }
