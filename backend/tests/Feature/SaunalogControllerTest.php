@@ -24,7 +24,7 @@ class SaunalogControllerTest extends TestCase
         //テスト用のユーザーに紐づくサウナログをデモとして3つ作成
         $saunalog = Saunalog::factory()->count(3)->create(['userId' => $user->id]);
         //テスト中に指定したユーザーとして認証された状態を模擬
-        $response = $this->actingAs($user)->getJson('/api/saunalog');
+        $response = $this->actingAs($user, 'web')->getJson('/api/saunalog');
 
         $response->assertStatus(200);
         //レスポンスボディが作成したサウナログの数だけレスポンスに含まれているか検証
@@ -40,6 +40,33 @@ class SaunalogControllerTest extends TestCase
             ],
         ]);
     }
+
+
+
+    //特定のサウナログの表示の正常テスト
+    public function testGetLogsByIdSuccessfully()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user, 'web');
+        $saunalog = Saunalog::factory()->create([
+            'name' => '更新テスト',
+            'area' => '東京',
+            'rank' => 3,
+            'comment' => '新規のサウナログ',
+            'userId' => $user->id,
+        ]);
+
+        $response = $this->getJson("/api/saunalog/{$saunalog->id}");
+        $response->assertStatus(200);
+        $response->assertJson([
+            'id' => $saunalog->id,
+            'name' => $saunalog->name,
+            'area' => $saunalog->area,
+            'rank' => $saunalog->rank,
+            'comment' => $saunalog->comment,
+        ]);
+    }
+
 
 
     //サウナログの新規作成の正常テスト
