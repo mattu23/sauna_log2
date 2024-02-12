@@ -6,11 +6,17 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Saunalog;
+
 
 
 class SaunalogControllerTest extends TestCase
 {
-    //サウナログの新規作成の成功テスト
+
+    use RefreshDatabase;
+
+
+    //サウナログの新規作成が成功する場合のテスト
     /** @test */
     public function testCreateSaunalogSuccessfully() 
     {
@@ -35,5 +41,36 @@ class SaunalogControllerTest extends TestCase
     }
 
     //サウナログの新規作成のエラーテスト
+    /** @test */
+
+
+
+    //サウナログの更新が成功する場合のテスト
+    /** @test */
+    public function testUpdateSaunalogSuccessfully() {
+        $user = User::factory()->create();
+        $this->actingAs($user, 'web');
+        $saunalog = Saunalog::factory()->create([
+            'name' => 'テスト1',
+            'area' => '東京',
+            'rank' => 3,
+            'comment' => '新規のサウナログ',
+            'userId' => $user->id,
+        ]);
+        $updateLogData = [
+            'name' => 'テスト1000',
+            'area' => 'さいたま',
+            'rank' => 5,
+            'comment' => '更新のサウナログ',
+        ];
+        $response = $this->putJson("/api/saunalog/{$saunalog->id}", $updateLogData);
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('saunalogs', [
+            ...$updateLogData,
+            'id'=> $saunalog->id,
+        ]);
+    }
+
+    // 指定されたIDのサウナログが見つからない場合のテスト
     /** @test */
 }
