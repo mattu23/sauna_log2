@@ -10,9 +10,9 @@ use App\Models\User;
 
 class SaunalogControllerTest extends TestCase
 {
-    //サウナログの新規作成テスト
+    //サウナログの新規作成の成功テスト
     /** @test */
-    public function testCreateSaunalog() 
+    public function testCreateSaunalogSuccessfully() 
     {
         //テスト用のユーザーデータをデータベースに実際に挿入
         $user = User::factory()->create();
@@ -33,4 +33,7 @@ class SaunalogControllerTest extends TestCase
         //指定したデータがデータベースのsaunalogsテーブルに存在することを検証
         $this->assertDatabaseHas('saunalogs', $logData);
     }
+
+    //サウナログの新規作成のエラーテスト
+    /** @test */
 }
