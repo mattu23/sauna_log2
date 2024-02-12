@@ -16,7 +16,33 @@ class SaunalogControllerTest extends TestCase
     use RefreshDatabase;
 
 
-    //サウナログの新規作成が成功する場合のテスト
+    //ユーザーに紐づくサウナログ一覧の表示機能の正常テスト
+    public function testGetLogsSuccessfully() 
+    {
+        $user = User::factory()->create();
+
+        //テスト用のユーザーに紐づくサウナログをデモとして3つ作成
+        $saunalog = Saunalog::factory()->count(3)->create(['userId' => $user->id]);
+        //テスト中に指定したユーザーとして認証された状態を模擬
+        $response = $this->actingAs($user)->getJson('/api/saunalog');
+
+        $response->assertStatus(200);
+        //レスポンスボディが作成したサウナログの数だけレスポンスに含まれているか検証
+        $response->assertJsonCount(3); 
+        //配列の各要素が以下の構造を持つことを検証
+        $response->assertJsonStructure([
+            '*' => [
+                'id',
+                'name',
+                'area',
+                'rank',
+                'comment',
+            ],
+        ]);
+    }
+
+
+    //サウナログの新規作成の正常テスト
     /** @test */
     public function testCreateSaunalogSuccessfully() 
     {
@@ -40,12 +66,12 @@ class SaunalogControllerTest extends TestCase
         $this->assertDatabaseHas('saunalogs', $saunalog);
     }
 
-    //サウナログの新規作成のエラーテスト
+    //サウナログの新規作成の異常テスト
     /** @test */
 
 
 
-    //サウナログの更新が成功する場合のテスト
+    //サウナログの更新の正常テスト
     /** @test */
     public function testUpdateSaunalogSuccessfully() {
         $user = User::factory()->create();
@@ -71,12 +97,12 @@ class SaunalogControllerTest extends TestCase
         ]);
     }
 
-    // 指定されたIDのサウナログが見つからない場合のテスト
+    // 指定されたIDのサウナログが見つからない異常テスト
     /** @test */
 
 
 
-    //サウナログの削除が成功する場合のテスト
+    //サウナログの削除の正常テスト
     /** @test */
     public function testDeleteSaunalogSuccessfully() {
         $user = User::factory()->create();
