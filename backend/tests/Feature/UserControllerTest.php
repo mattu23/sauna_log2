@@ -170,4 +170,16 @@ class UserControllerTest extends TestCase
         $loginResponse->assertStatus(200); 
     }
 
+
+
+    //ユーザー削除の正常テスト
+    public function testDeleteSuccessfully() 
+    {
+        $testUser = User::factory()->create();
+        $response = $this->actingAs($testUser)->deleteJson('/api/delete-user');
+
+        $response->assertStatus(200);
+        // ユーザーがデータベースから削除されていることを確認
+        $this->assertDatabaseMissing('users', ['id' => $testUser->id]);
+    }
 }
