@@ -115,4 +115,26 @@ class UserControllerTest extends TestCase
             'email' => $user->email,
         ]);
     }
+
+
+
+    //ユーザー情報編集の正常テスト
+    public function testUpdateSuccessfully()
+    {
+        $testUser = User::factory()->create([
+            'email' => 'test@example.com',
+            'password' => bcrypt('password1234'), 
+        ]);
+        $response = $this->actingAs($testUser)->putJson('/api/update-user', [
+            'username' => 'Edit User1',
+            'email' => 'edit@example.com',
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('users', [
+            'id' => $testUser->id,
+            'username' => 'Edit User1',
+            'email' => 'edit@example.com',
+        ]);
+    }
 }
