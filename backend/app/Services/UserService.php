@@ -18,11 +18,7 @@ class UserService
     //新規ユーザー作成
     public function createUser(array $data): User
     {
-      try {
         return User::createUser($data);
-      } catch(\Exception $e) {
-        throw new SystemException('ユーザー作成に失敗しました。');
-      }
     }
 
     //ログイン

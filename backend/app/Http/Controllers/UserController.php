@@ -29,12 +29,8 @@ class UserController extends Controller
     //ユーザーの新規登録
     public function signUp(CreateUserRequest $request)
     {
-      try {
-          $user = $this->userService->createUser($request->validated());
-          return response()->json($user, 201);
-      } catch(SystemException $e) {
-          return response()->json(['message' => $e->getMessage()], 500);
-      }
+        $user = $this->userService->createUser($request->validated());
+        return response()->json($user, 201);
     }
 
     //ユーザーのログイン
@@ -53,13 +49,8 @@ class UserController extends Controller
     //ユーザーのログアウト
     public function logout(Request $request)
     {
-        try {
-            $request->user()->currentAccessToken()->delete();
-            return response()->json(['message' => 'ログアウトしました。'], 200);
-        } catch(\Exception $e) {
-            // ログアウト処理中に何らかの問題が発生した場合
-            return response()->json(['message' => 'ログアウト処理中に問題が発生しました。'], 500);
-        }
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(['message' => 'ログアウトしました。'], 200);
     }
 
     //ログイン中のユーザー情報を取得する

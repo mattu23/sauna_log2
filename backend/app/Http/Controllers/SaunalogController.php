@@ -26,14 +26,8 @@ class SaunalogController extends Controller
     //ユーザーに紐づくサウナログを一覧で表示させる
     public function getLogs(Request $request)
     {
-        try {
-            $userId = $request->user()->id;
-            return $this->saunalogService->getLogsByUser($userId);
-        } catch(NotFoundException $e) {
-            return response()->json(['message' => $e->getMessage()], 404);
-        } catch(SystemException $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
-        }
+        $userId = $request->user()->id;
+        return $this->saunalogService->getLogsByUser($userId);
     }
 
     //特定のサウナログのみの表示
@@ -44,20 +38,14 @@ class SaunalogController extends Controller
             return response()->json($log);   
         } catch(NotFoundException $e) {
             return response()->json(['message' => $e->getMessage()], 404);
-        } catch(SystemException $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 
     //サウナログの新規作成
     public function create(CreateSaunalogRequest $request)
     {
-        try {
-            $user = $request->user();
-            return $this->saunalogService->createLog($request->validated(), $user);
-        } catch(SystemException $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
-        }
+        $user = $request->user();
+        return $this->saunalogService->createLog($request->validated(), $user);
     }
 
     //特定のサウナログの編集
@@ -67,8 +55,6 @@ class SaunalogController extends Controller
             return $this->saunalogService->updateLogById($id, $request->validated());
         } catch(NotFoundException $e) {
             return response()->json(['message' => $e->getMessage()], 404);
-        } catch(SystemException $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 
@@ -79,8 +65,6 @@ class SaunalogController extends Controller
             return $this->saunalogService->deleteLogById($id);
         } catch(NotFoundException $e) {
             return response()->json(['message' => $e->getMessage()], 404);
-        } catch(SystemException $e) {
-            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
 }

@@ -18,10 +18,6 @@ class SaunalogService
     public function getLogsByUser($userId): Collection 
     {
         $logs = Saunalog::where('userId', $userId)->get();
-        //「ログが見つからない＝Whereメソッドが空」なので、そのチェックをし空の場合は例外を投げる
-        if($logs->isEmpty()) {
-          throw new NotFoundException('ユーザーに紐づくサウナログが見つかりません。');
-        }
         return $logs;
     }
 
@@ -42,11 +38,8 @@ class SaunalogService
     {
         $saunalog = new Saunalog($data);
         $saunalog->user()->associate($user);
-        if($saunalog->save()) {
-          return $saunalog;
-        } else {
-          throw new SystemException('ログの新規作成に失敗しました。');
-        }
+        $saunalog->save();
+        return $saunalog;
     }
 
     //サウナログの編集
