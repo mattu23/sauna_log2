@@ -137,4 +137,37 @@ class UserControllerTest extends TestCase
             'email' => 'edit@example.com',
         ]);
     }
+
+
+
+    //ユーザーパスワード編集の正常テスト
+    public function testUpdatePasswordSuccessfully()
+    {
+        $testUser = User::factory()->create([
+            'password' => bcrypt('password1234'), 
+        ]);
+        $response = $this->actingAs($testUser)->putJson('/api/update-password', [
+            'password' => 'password1234',
+            'newPassword' => 'password123456',
+        ]);
+
+        $response->assertStatus(200);
+
+        // ログアウトして新しいセッションを開始
+        // トークンを取得
+        $token = $loginResponse->json('token');
+        // トークンを使用してログアウトリクエストを送信
+        $logoutResponse = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->postJson('/api/logout');      
+
+        // 新しいパスワードでログインを試みる
+        $loginResponse = $this->postJson('/api/signin', [
+            'email' => $testUser->email,
+            'password' => 'password123456',
+        ]);
+        // 新しいパスワードでのログインが成功することを確認
+        $loginResponse->assertStatus(200); 
+    }
+
 }
