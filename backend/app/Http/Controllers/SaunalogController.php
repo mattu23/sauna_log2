@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Saunalog;
 use App\Models\User;
-use App\Http\Requests\CreateSaunalogRequest; // リクエストバリデーションクラス
-use App\Http\Requests\UpdateSaunalogRequest; // リクエストバリデーションクラス
-use App\Services\SaunalogService; // Saunalogサービスクラス
-use App\Exceptions\CustomException;
+use App\Http\Requests\CreateSaunalogRequest; 
+use App\Http\Requests\UpdateSaunalogRequest; 
+use App\Services\SaunalogService; 
 use App\Exceptions\NotFoundException;
+use App\Exceptions\SystemException;
+
 
 
 class SaunalogController extends Controller
@@ -22,41 +23,29 @@ class SaunalogController extends Controller
         $this->saunalogService = $saunalogService;
     }
 
-    //ユーザーに紐づくサウナログ一覧の表示
+    //ユーザーに紐づくサウナログを一覧で表示させる
     public function getLogs(Request $request)
     {
-        try {
-            $userId = $request->user()->id;
-            return $this->saunalogService->getLogsByUser($userId);
-        } catch(CustomException $e) {
-            return response()->json(['message' => 'ユーザーのサウナログの取得に失敗しました。'], 500);
-        }
+        $userId = $request->user()->id;
+        return $this->saunalogService->getLogsByUser($userId);
     }
 
-    //特定のサウナログの表示
+    //特定のサウナログのみの表示
     public function getLogById($id)
     {
         try {
             $log = $this->saunalogService->getLogById($id);
-            if (!$log) {
-                return response()->json(['message' => '指定されたサウナログが見つかりません。'], 404);
-            } 
             return response()->json($log);   
-        } catch(CustomException $e) {
-            return response()->json(['message' => '特定のサウナログの取得に失敗しました。'], 500);
+        } catch(NotFoundException $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
         }
     }
 
     //サウナログの新規作成
     public function create(CreateSaunalogRequest $request)
     {
-        try {
-            $user = $request->user();
-            return $this->saunalogService->createLog($request->validated(), $user);
-        } catch(CustomException $e) {
-            return response()->json(['message' => 'サウナログの作成に失敗しました。'], 500);
-        }
-        
+        $user = $request->user();
+        return $this->saunalogService->createLog($request->validated(), $user);
     }
 
     //特定のサウナログの編集
@@ -64,8 +53,8 @@ class SaunalogController extends Controller
     {
         try {
             return $this->saunalogService->updateLogById($id, $request->validated());
-        } catch(CustomException $e) {
-            return response()->json(['message' => 'サウナログの編集に失敗しました。'], 500);
+        } catch(NotFoundException $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
         }
     }
 
@@ -74,8 +63,8 @@ class SaunalogController extends Controller
     {
         try {
             return $this->saunalogService->deleteLogById($id);
-        } catch(CustomException $e) {
-            return response()->json(['message' => 'サウナログの削除中にエラーが発生しました。'], 500);
+        } catch(NotFoundException $e) {
+            return response()->json(['message' => $e->getMessage()], 404);
         }
     }
 }
