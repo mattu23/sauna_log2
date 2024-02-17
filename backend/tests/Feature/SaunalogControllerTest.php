@@ -69,7 +69,6 @@ class SaunalogControllerTest extends TestCase
         ]);
     }
 
-
     //モックを使用した特定のサウナログの取得失敗テスト
     public function testGetLogByIdFailed()
     {
@@ -114,9 +113,6 @@ class SaunalogControllerTest extends TestCase
         $this->assertDatabaseHas('saunalogs', $saunalog);
     }
 
-    //サウナログの新規作成の異常テスト
-    /** @test */
-
 
 
     //サウナログの更新の正常テスト
@@ -145,8 +141,25 @@ class SaunalogControllerTest extends TestCase
         ]);
     }
 
-    // 指定されたIDのサウナログが見つからない異常テスト
+    // 特定のサウナログの編集異常テスト
     /** @test */
+    public function testUpdateSaunalogFailed() {
+        $user = User::factory()->create();
+        $this->actingAs($user, 'web');
+
+        $this->mock(SaunalogService::class, function($mock) {
+            $mock->shouldReceive('updateLogById')->once()->andThrow(new NotFoundException("指定されたサウナログが見つかりません。"));
+        });
+
+        $response = $this->putJson('api/saunalog/999', [
+            'name' => 'テスト1000',
+            'area' => 'さいたま',
+            'rank' => 5,
+            'comment' => '更新のサウナログ',
+        ]);
+        $response->assertStatus(404);
+        $response->assertJson(['message' => '指定されたサウナログが見つかりません。']);
+    }
 
 
 
