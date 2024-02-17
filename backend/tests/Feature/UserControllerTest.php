@@ -172,6 +172,23 @@ class UserControllerTest extends TestCase
         ]);
     }
 
+    //ユーザー情報編集の異常テスト
+    public function testUpdateFailed() {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        $this->mock(UserService::class, function($mock) {
+            $mock->shouldReceive('updateUser')->once()->andThrow(new NotFoundException("ユーザーが見つかりません。"));
+        });
+
+        $response = $this->putJson('/api/update-user', [
+            'username' => 'Edit User1',
+            'email' => 'edit@example.com',
+        ]);
+        $response->assertStatus(404);
+        $response->assertJson(['message' => "ユーザーが見つかりません。"]);
+    }
+
+
 
 
     //ユーザーパスワード編集の正常テスト
