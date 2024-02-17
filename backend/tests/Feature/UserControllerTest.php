@@ -7,6 +7,10 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Saunalog;
+use App\Services\UserService; 
+use App\Exceptions\NotFoundException; 
+use App\Exceptions\AuthenticationException; 
+use Mockery; 
 
 
 class UserControllerTest extends TestCase
@@ -65,6 +69,21 @@ class UserControllerTest extends TestCase
         $this->assertDatabaseHas('users', [
             'email' => 'test@example.com',
         ]);
+    }
+
+    //ユーザーログインの異常テスト
+    public function testSigninFailed() {
+        $this->mock(UserService::class, function($mock) {
+            $mock->shouldReceive('loginUser')->once()->andThrow(new AuthenticationException("認証に失敗しました。"));
+        });
+
+        $response = $this->postJson('api/signin', [
+            'email' => 'failed@example.com',
+            'password' => 'faildPassword'
+        ]);
+
+        $response->assertStatus(401);
+        $response->assertJson(['message' => '認証に失敗しました。']);
     }
 
 
