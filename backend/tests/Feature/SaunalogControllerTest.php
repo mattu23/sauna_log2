@@ -7,7 +7,9 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Saunalog;
-
+use App\Services\SaunalogService; 
+use App\Exceptions\NotFoundException; 
+use Mockery; 
 
 
 class SaunalogControllerTest extends TestCase
@@ -65,6 +67,25 @@ class SaunalogControllerTest extends TestCase
             'rank' => $saunalog->rank,
             'comment' => $saunalog->comment,
         ]);
+    }
+
+
+    //モックを使用した特定のサウナログの取得失敗テスト
+    public function testGetLogByIdFailed()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user, 'web');
+
+        // モックを作成して、NotFoundExceptionを投げるように設定
+        $mock = Mockery::mock(SaunalogService::class);
+        $mock->shouldReceive('getLogById')->once()->andThrow(new NotFoundException("指定されたサウナログが見つかりません。"));
+        $this->app->instance(SaunalogService::class, $mock);
+
+        $nonexistentLogId = 999;//　存在しないIDを仮定
+        $response = $this->getJson("/api/saunalog/{$nonexistentLogId}");
+
+        $response->assertStatus(404);
+        $response->assertJson(['message' => '指定されたサウナログが見つかりません。']);
     }
 
 
