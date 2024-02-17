@@ -179,4 +179,18 @@ class SaunalogControllerTest extends TestCase
         $response->assertStatus(200);
         $this->assertDatabaseMissing('saunalogs', ['id' => $saunalog->id]);
     }
+
+    //サウナログの削除の異常テスト
+    public function testDeleteSaunalogFailed() {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $this->mock(SaunalogService::class, function($mock) {
+            $mock->shouldReceive('deleteLogById')->once()->andThrow(new NotFoundException("指定されたサウナログが見つかりません。"));
+        });
+
+        $response = $this->deleteJson('/api/saunalog/999');
+        $response->assertStatus(404);
+        $response->assertJson(['message' => '指定されたサウナログが見つかりません。']);
+    }
 }
