@@ -252,4 +252,18 @@ class UserControllerTest extends TestCase
         // ユーザーがデータベースから削除されていることを確認
         $this->assertDatabaseMissing('users', ['id' => $testUser->id]);
     }
+
+    //ユーザー削除の異常テスト
+    public function testDeleteFailed() {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $this->mock(UserService::class, function($mock) {
+            $mock->shouldReceive('deleteUser')->once()->andThrow(new NotFoundException("ユーザーが見つかりません。"));
+        });
+
+        $response = $this->deleteJson('api/delete-user');
+        $response->assertStatus(404);
+        $response->assertJson(['message' => 'ユーザーが見つかりません。']);
+    }
 }
