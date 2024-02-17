@@ -221,6 +221,25 @@ class UserControllerTest extends TestCase
         $loginResponse->assertStatus(200); 
     }
 
+    //ユーザーパスワード編集の異常テスト
+    public function testUpdatePasswordFailed() {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $this->mock(UserService::class, function ($mock) {
+            $mock->shouldReceive('updatePassword')
+                ->once()
+                ->andThrow(new AuthenticationException("現在のパスワードが間違っています。"));
+        });
+        $response = $this->putJson('/api/update-password', [
+            'password' => 'wrongpassword',
+            'newPassword' => 'newsecurepassword'
+        ]);
+
+        $response->assertStatus(401);
+        $response->assertJson(['message' => '現在のパスワードが間違っています。']);
+    }
+
 
 
     //ユーザー削除の正常テスト
