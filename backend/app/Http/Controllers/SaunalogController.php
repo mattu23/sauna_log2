@@ -22,6 +22,14 @@ class SaunalogController extends Controller
         $this->middleware('auth');
         $this->saunalogService = $saunalogService;
     }
+    
+
+    //すべてのサウナログを一覧表示
+    public function getAllLogs() 
+    {
+        return response()->json($this->saunalogService->getAllLogs());
+    }
+
 
     //ユーザーに紐づくサウナログを一覧で表示させる
     public function getLogs(Request $request)
@@ -29,6 +37,7 @@ class SaunalogController extends Controller
         $userId = $request->user()->id;
         return $this->saunalogService->getLogsByUser($userId);
     }
+
 
     //特定のサウナログのみの表示
     public function getLogById($id)
@@ -41,12 +50,14 @@ class SaunalogController extends Controller
         }
     }
 
+
     //サウナログの新規作成
     public function create(CreateSaunalogRequest $request)
     {
         $user = $request->user();
         return $this->saunalogService->createLog($request->validated(), $user);
     }
+
 
     //特定のサウナログの編集
     public function update($id, UpdateSaunalogRequest $request)
@@ -57,6 +68,7 @@ class SaunalogController extends Controller
             return response()->json(['message' => $e->getMessage()], 404);
         }
     }
+
 
     //特定のサウナログの削除
     public function delete($id)
