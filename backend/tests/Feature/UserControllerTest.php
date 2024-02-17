@@ -113,6 +113,7 @@ class UserControllerTest extends TestCase
     //ログイン中のユーザー情報を取得する正常テスト
     public function testGetSuccessfully() 
     {
+        //下記はfactoryとactingAsを使用して端的にリファクタできそう
         $testUser = User::factory()->create([
             'email' => 'test@example.com',
             'password' => bcrypt('password1234'), 
@@ -126,13 +127,27 @@ class UserControllerTest extends TestCase
         // トークンを使用してログアウトリクエストを送信
         $fetchUserResponse = $this->withHeaders([
             'Authorization' => 'Bearer ' . $token,
-        ])->getJson('/api/get');
+        ])->getJson('/api/getUser');
         $fetchUserResponse->assertStatus(200);
         // レスポンスに期待するユーザー情報が含まれていることを検証
         $fetchUserResponse->assertJson([
-            'id' => $user->id,
-            'email' => $user->email,
+            'id' => $testUser->id,
+            'email' => $testUser->email,
         ]);
+    }
+
+    //ログイン中のユーザー情報を取得に失敗する異常テスト
+    public function testGetFailed() {
+        $user = User::factory()->create();
+        $this->actingAs($user);
+
+        $this->mock(UserService::class, function($mock) {
+            $mock->shouldReceive('getUserById')->once()->andThrow(new NotFoundException("ユーザーが見つかりません。"));
+        });
+
+        $response = $this->getJson('/api/getUser');
+        $response->assertStatus(404);
+        $response->assertJson(['message' => 'ユーザーが見つかりません。']);
     }
 
 
