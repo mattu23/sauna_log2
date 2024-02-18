@@ -35,11 +35,11 @@
                   <v-list-item-subtitle>コメント：{{ log.comment }}</v-list-item-subtitle>
                   <v-list-item-subtitle>投稿者：{{ log.user.username }}</v-list-item-subtitle>
                 </v-list-item-content>
-                <v-list-item-action>
+                <v-list-item-action v-if="log.user.id === user.id">
                   <v-btn icon :to="`/list/${log.id}`">
                     <v-icon color="green">mdi-pencil</v-icon>
                   </v-btn>
-                  <v-btn icon @click="deleteLog(log.id)">
+                  <v-btn icon @click="() => deleteLog(log.id)">
                     <v-icon color="red">mdi-delete</v-icon>
                   </v-btn>
                 </v-list-item-action>
