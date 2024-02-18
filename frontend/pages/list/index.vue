@@ -33,6 +33,7 @@
                   <v-list-item-subtitle>エリア：{{ log.area }}</v-list-item-subtitle>
                   <v-list-item-subtitle>評価：{{ log.rank }}</v-list-item-subtitle>
                   <v-list-item-subtitle>コメント：{{ log.comment }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>投稿者：{{ log.user.username }}</v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-action>
                   <v-btn icon :to="`/list/${log.id}`">
