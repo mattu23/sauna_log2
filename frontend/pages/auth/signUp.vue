@@ -2,7 +2,7 @@
   <v-layout align-center justify-center>
     <v-card elevation="16" width="600px" class="mx-auto mt-5" shaped>
       <v-card-title>
-        <h2 class="mx-auto">ユーザー新規登録</h2>
+        <h2 class="mx-auto">新規ユーザー登録</h2>
       </v-card-title>
       <v-card-text>
         <v-form>
@@ -32,7 +32,7 @@
           <br />
           <v-card-actions>
             <v-btn class="primary" @click="createUser">登録</v-btn>
-            <v-btn to="login">戻る</v-btn>
+            <v-btn to="/">戻る</v-btn>
             <v-text style="margin: 15px"> ※既に使用済みのアドレスは登録できません</v-text>
           </v-card-actions>
         </v-form>
