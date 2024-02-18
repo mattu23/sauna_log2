@@ -62,6 +62,8 @@ class SaunalogController extends Controller
     //特定のサウナログの編集
     public function update($id, UpdateSaunalogRequest $request)
     {
+        $saunalog = Saunalog::findOrFail($id); // IDを使ってサウナログのインスタンスを取得
+        $this->authorize('update', $saunalog); 
         try {
             return $this->saunalogService->updateLogById($id, $request->validated());
         } catch(NotFoundException $e) {
@@ -73,6 +75,8 @@ class SaunalogController extends Controller
     //特定のサウナログの削除
     public function delete($id)
     {
+        $saunalog = Saunalog::findOrFail($id);
+        $this->authorize('delete', $saunalog);
         try {
             return $this->saunalogService->deleteLogById($id);
         } catch(NotFoundException $e) {
