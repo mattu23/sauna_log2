@@ -76,7 +76,7 @@ export default {
   methods: {
     async getLogData() {
       try {
-        const response = await this.$axios.get(`${process.env.API_ENDPOINT}/saunalog/`, {withCredentials: true});
+        const response = await this.$axios.get(`${process.env.API_ENDPOINT}/saunalog/all`, {withCredentials: true});
         this.saunaLogs = response.data;
       } catch(error) {
         console.error(error);
