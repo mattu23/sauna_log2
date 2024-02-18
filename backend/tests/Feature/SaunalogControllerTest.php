@@ -17,6 +17,18 @@ class SaunalogControllerTest extends TestCase
 
     use RefreshDatabase;
 
+    //すべてのサウナログの一覧表示の正常テスト
+    public function testGetAllLogs()
+    {
+        $user = User::factory()->create();
+        $saunalog = Saunalog::factory()->count(3)->create(['userId' => $user->id]);
+        $this->actingAs($user);
+
+        $response = $this->getJson('/api/saunalog/all');
+        $response->assertStatus(200)
+                 ->assertJsonCount(3);   
+    }
+
 
     //ユーザーに紐づくサウナログ一覧の表示機能の正常テスト
     public function testGetLogsSuccessfully() 

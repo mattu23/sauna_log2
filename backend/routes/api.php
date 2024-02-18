@@ -40,6 +40,9 @@ Route::controller(UserController::class)->group(function () {
 // SaunalogControllerのルート
 Route::middleware('auth:sanctum')->group(function () {
 
+    //すべてのサウナログの一覧表示
+    Route::get('/saunalog/all', [SaunalogController::class, 'getAllLogs']);
+
     //ユーザーに紐づくサウナログの一覧の表示
     Route::get('/saunalog', [SaunalogController::class, 'getLogs']);
 

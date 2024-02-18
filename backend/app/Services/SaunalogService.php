@@ -13,6 +13,13 @@ use App\Exceptions\SystemException;
 
 class SaunalogService 
 {
+    //すべてのサウナログの一覧表示
+    public function getAllLogs() 
+    {
+        //セキュリティ上、UserIdとnameだけ返すように
+        return Saunalog::with('user:id,username')->get();
+    }
+
 
     //ユーザーに紐づくサウナログ一覧の表示
     public function getLogsByUser($userId): Collection 
