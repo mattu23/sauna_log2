@@ -29,7 +29,7 @@
             <v-list-item-group>
               <v-list-item v-for="log in saunaLogs" :key="log.id">
                 <v-list-item-content>
-                  <v-list-item-title  style="font-size: 16px;">{{ log.name }}</v-list-item-title> <!-- 文字サイズを調整 -->
+                  <v-list-item-title  style="font-size: 16px;">{{ log.name }}</v-list-item-title>
                   <v-list-item-subtitle>エリア：{{ log.area }}</v-list-item-subtitle>
                   <v-list-item-subtitle>評価：{{ log.rank }}</v-list-item-subtitle>
                   <v-list-item-subtitle>コメント：{{ log.comment }}</v-list-item-subtitle>
@@ -47,6 +47,12 @@
             </v-list-item-group>
           </v-list>
         </v-container>
+        <v-pagination
+          v-model="page"
+          :length="totalPages"
+          @input="getLogData"
+          circle
+        ></v-pagination>
       </v-card>
     </v-layout>
   </div>
@@ -65,7 +71,10 @@ export default {
   data() {
     return {
       saunaLogs: [],
-      user: {}
+      user: {},
+      page: 1,
+      totalPages: 0,
+      itemsPerPage: 5
     };
   },
   created() {
@@ -77,8 +86,15 @@ export default {
   methods: {
     async getLogData() {
       try {
-        const response = await this.$axios.get(`${process.env.API_ENDPOINT}/saunalog/all`, {withCredentials: true});
-        this.saunaLogs = response.data;
+        const response = await this.$axios.get(`${process.env.API_ENDPOINT}/saunalog/all`, {
+          params: {
+            page: this.page,
+            limit: this.itemsPerPage
+          },
+          withCredentials: true
+        });
+        this.saunaLogs = response.data.logs;
+        this.totalPages = response.data.totalPages;
       } catch(error) {
         console.error(error);
         alert('正常にデータを取得できませんでした。ログイン状態を確認してください。');

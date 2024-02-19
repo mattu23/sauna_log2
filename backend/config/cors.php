@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://saunalog.site:3000', 'http://52.198.90.29:3000','http://172.20.10.3:3000'],
+    'allowed_origins' => ['http://saunalog.site:3000', 'http://52.198.90.29:3000','http://172.20.10.3:3000','http://192.168.0.57:3000'],
 
     'Access-Control-Allow-Credentials' => true,
 

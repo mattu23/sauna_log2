@@ -24,10 +24,20 @@ class SaunalogController extends Controller
     }
     
 
-    //すべてのサウナログを一覧表示
-    public function getAllLogs() 
+    //すべてのサウナログをページネーションを使用し一覧表示
+    public function getAllLogs(Request $request) 
     {
-        return response()->json($this->saunalogService->getAllLogs());
+        $page = $request->input('page', 1);
+        $limit = $request->input('limit', 5);
+
+        $saunalogs = Saunalog::with('user:id,username')->paginate($limit, ['*'], 'page', $page);
+
+
+        return response()->json([
+            'logs' => $saunalogs->items(),
+            'totalPages' => $saunalogs->lastPage(),
+            'currentPage' => $saunalogs->currentPage(),
+        ]);
     }
 
 
