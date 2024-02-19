@@ -52,7 +52,7 @@ export default {
     '@nuxtjs/auth',
   ],
   axios: {
-    baseURL: 'http://localhost:8000/api',
+    baseURL: 'http://52.198.90.29:8000/api',
     credentials: true, // クロスオリジンのリクエストで認証情報（クッキー等）を含む
   },
   plugins: [
