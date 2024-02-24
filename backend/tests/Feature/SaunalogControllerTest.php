@@ -17,16 +17,27 @@ class SaunalogControllerTest extends TestCase
 
     use RefreshDatabase;
 
-    //すべてのサウナログの一覧表示の正常テスト
+    //すべてのサウナログのページネーションを使用した一覧表示の正常テスト
     public function testGetAllLogs()
     {
         $user = User::factory()->create();
-        $saunalog = Saunalog::factory()->count(3)->create(['userId' => $user->id]);
+        $saunalog = Saunalog::factory()->count(5)->create(['userId' => $user->id]);
         $this->actingAs($user);
 
-        $response = $this->getJson('/api/saunalog/all');
-        $response->assertStatus(200)
-                 ->assertJsonCount(3);   
+        $response = $this->getJson('/api/saunalog/all?page=1&limit=5');
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+           'logs'=> [
+                '*' => ['id', 'name', 'area', 'rank', 'comment', 'userId']
+           ],
+           'totalPages',
+           'currentPage',
+        ]);
+        $response->assertJson([
+            'totalPages' => 1,
+            'currentPage' => 1,
+        ]);
+        $this->assertCount(5, Saunalog::all());   
     }
 
 
