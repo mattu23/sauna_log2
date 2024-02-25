@@ -37,7 +37,7 @@ class SaunalogPolicy
      */
     public function update(User $user, Saunalog $saunalog): bool
     {
-        return $user->id === $saunalog->userId;
+        return $user->hasRole('admin') || $user->id === $saunalog->userId;
     }
 
     /**
@@ -45,7 +45,7 @@ class SaunalogPolicy
      */
     public function delete(User $user, Saunalog $saunalog): bool
     {
-        return $user->id === $saunalog->userId;
+        return  $user->hasRole('admin') || $user->id === $saunalog->userId;
     }
 
     /**
