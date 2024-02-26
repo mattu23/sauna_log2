@@ -5,7 +5,7 @@
       <v-spacer></v-spacer>
       <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn text v-bind="attrs" v-on="on">{{ user.username }} ：マイページ</v-btn>
+        <v-btn text v-bind="attrs" v-on="on">{{ user.username }} （{{ userRoles }}） ：マイページ</v-btn>
       </template>
       <v-list>
         <v-list-item to="/editUser">
@@ -74,7 +74,8 @@ export default {
       user: {},
       page: 1,
       totalPages: 0,
-      itemsPerPage: 5
+      itemsPerPage: 5,
+      userRoles: '', 
     };
   },
   created() {
@@ -103,6 +104,7 @@ export default {
     async fetchUserData() {
       const response = await this.$axios.get(`${process.env.API_ENDPOINT}/getUser`);
       this.user = response.data;
+      this.userRoles = this.user.roles.map(role => role.name).join(', ');
     },
     async deleteLog(id) {
       if(confirm('本当にデータを削除しますか？')) {
