@@ -59,6 +59,7 @@ class UserController extends Controller
       try {
           $userId = $request->user()->id;
           $user = $this->userService->getUserById($userId);
+          $user->roles = $user->getRoleNames(); 
           return response()->json($user);
       } catch(NotFoundException $e) {
           return response()->json(['message' => $e->getMessage()], 404);
