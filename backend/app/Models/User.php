@@ -7,12 +7,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 use App\Models\Saunalog;
 
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens; 
+    use HasFactory, Notifiable, HasApiTokens, HasRoles; 
 
     protected $fillable = [
         'username',

@@ -35,17 +35,17 @@ class SaunalogPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, int $saunalogUserId): bool
+    public function update(User $user, Saunalog $saunalog): bool
     {
-        return $user->id === $saunalogUserId;
+        return $user->hasRole('admin') || $user->id === $saunalog->userId;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, int $saunalogUserId): bool
+    public function delete(User $user, Saunalog $saunalog): bool
     {
-        return $user->id === $saunalogUserId;
+        return  $user->hasRole('admin') || $user->id === $saunalog->userId;
     }
 
     /**

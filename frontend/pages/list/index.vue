@@ -5,7 +5,7 @@
       <v-spacer></v-spacer>
       <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-btn text v-bind="attrs" v-on="on">{{ user.username }} ：マイページ</v-btn>
+        <v-btn text v-bind="attrs" v-on="on">{{ user.username }} （{{ userRoles }}） ：マイページ</v-btn>
       </template>
       <v-list>
         <v-list-item to="/editUser">
@@ -35,7 +35,7 @@
                   <v-list-item-subtitle>コメント：{{ log.comment }}</v-list-item-subtitle>
                   <v-list-item-subtitle>投稿者：{{ log.user.username }}</v-list-item-subtitle>
                 </v-list-item-content>
-                <v-list-item-action v-if="log.user.id === user.id">
+                <v-list-item-action v-if="user && user.roles && (user.roles.some(role => role.name === 'admin') || log.user.id === user.id)">
                   <v-btn icon :to="`/list/${log.id}`">
                     <v-icon color="green">mdi-pencil</v-icon>
                   </v-btn>
@@ -74,7 +74,8 @@ export default {
       user: {},
       page: 1,
       totalPages: 0,
-      itemsPerPage: 5
+      itemsPerPage: 5,
+      userRoles: '', 
     };
   },
   created() {
@@ -103,6 +104,7 @@ export default {
     async fetchUserData() {
       const response = await this.$axios.get(`${process.env.API_ENDPOINT}/getUser`);
       this.user = response.data;
+      this.userRoles = this.user.roles.map(role => role.name).join(', ');
     },
     async deleteLog(id) {
       if(confirm('本当にデータを削除しますか？')) {
