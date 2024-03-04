@@ -199,7 +199,7 @@ export async function setContext (app, context) {
       payload: context.payload,
       error: context.error,
       base: app.router.options.base,
-      env: {"API_ENDPOINT":"http://localhost:8000/api","API_BASE_URL":"http://localhost:8000/api"}
+      env: {"API_ENDPOINT":"http://localhost:8000/api","API_BASE_URL":"http://localhost:8000/api","googleMapsApiKey":"AIzaSyDlL_1zEn0A5OsDWNyzRgHIMf1NxlnKtxU"}
     }
     // Only set once
 
