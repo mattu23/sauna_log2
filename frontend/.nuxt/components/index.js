@@ -1,3 +1,5 @@
+export { default as SaunaMap } from '../../components/SaunaMap.vue'
+
 // nuxt/nuxt.js#8607
 function wrapFunctional(options) {
   if (!options || !options.functional) {
