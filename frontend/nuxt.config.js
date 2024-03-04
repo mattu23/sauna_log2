@@ -20,6 +20,23 @@ export default {
     htmlAttrs: {
       lang: 'en',
     },
+    script: [
+      {
+        vmid: 'gmap-api',
+        src: `https://maps.googleapis.com/maps/api/js?key=AIzaSyDlL_1zEn0A5OsDWNyzRgHIMf1NxlnKtxU&libraries=places&callback=initMap`,
+        async: true,
+        defer: true
+      },
+      {
+        innerHTML: `
+          window.initMap = function() {
+          };
+        `,
+        type: 'text/javascript',
+        charset: 'utf-8'
+      }
+    ],
+    __dangerouslyDisableSanitizers: ['script'],
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -52,7 +69,7 @@ export default {
     '@nuxtjs/auth',
   ],
   axios: {
-    baseURL: 'http://52.198.90.29:8000/api',
+    baseURL: 'http://localhost:8000/api',
     credentials: true, // クロスオリジンのリクエストで認証情報（クッキー等）を含む
   },
   plugins: [
@@ -61,7 +78,8 @@ export default {
 
   env: {
     API_ENDPOINT: process.env.API_ENDPOINT,
-    API_BASE_URL: process.env.API_BASE_URL
+    API_BASE_URL: process.env.API_BASE_URL,
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY
   },
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
