@@ -2,6 +2,14 @@
   <div :id="'map-' + logId" class="sauna-map"></div>
 </template>
 
+<style scoped>
+.sauna-map {
+  width: 100%;
+  height: 400px; /* 必要に応じて調整 */
+}
+</style>
+
+
 <script>
 // SaunaMap.vue のスクリプト部分
 

@@ -1,6 +1,9 @@
 <template>
   <div id="app">
     <v-app-bar app>
+      <v-dialog v-model="dialog" max-width="600px">
+      <sauna-map :log-id="selectedLog.id" :saunaName="selectedLog.name" v-if="selectedLog"></sauna-map>
+      </v-dialog>
       <v-toolbar-title>サウナリスト一覧</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-menu offset-y>
@@ -27,8 +30,8 @@
         <v-container>
           <v-list dense>
             <v-list-item-group>
-              <div id="map">
-              <v-list-item v-for="log in saunaLogs" :key="log.id">
+              <div id="map-section">
+                <v-list-item v-for="log in saunaLogs" :key="log.id" @click="selectLog(log)">
                 <v-list-item-content>
                   <v-list-item-title  style="font-size: 16px;">{{ log.name }}</v-list-item-title>
                   <v-list-item-subtitle>エリア：{{ log.area }}</v-list-item-subtitle>
@@ -36,7 +39,6 @@
                   <v-list-item-subtitle>コメント：{{ log.comment }}</v-list-item-subtitle>
                   <v-list-item-subtitle>投稿者：{{ log.user.username }}</v-list-item-subtitle>
                 </v-list-item-content>
-                <sauna-map :log-id="log.id" :saunaName="log.name"></sauna-map>
                 <v-list-item-action v-if="user && user.roles && (user.roles.some(role => role.name === 'admin') || log.user.id === user.id)">
                   <v-btn icon :to="`/list/${log.id}`">
                     <v-icon color="green">mdi-pencil</v-icon>
@@ -84,6 +86,8 @@ export default {
       totalPages: 0,
       itemsPerPage: 5,
       userRoles: '', 
+      selectedLog: null,
+      dialog: false,
     };
   },
   created() {
@@ -151,6 +155,12 @@ export default {
       } else {
         // ユーザーがキャンセルを選択した場合、何もしない
       }
+    },
+    selectLog(log) {
+    this.selectedLog = log;
+    console.log(this.selectedLog);
+    this.dialog = true;
+    console.log(this.dialog);
     },
   }
 }  
