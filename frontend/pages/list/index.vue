@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <v-app-bar app>
-      <v-dialog v-model="dialog" max-width="600px">
-      <sauna-map :log-id="selectedLog.id" :saunaName="selectedLog.name" v-if="selectedLog"></sauna-map>
+      <v-dialog v-model="dialog" max-width="600px" @close="resetDialog">
+      <sauna-map :key="selectedLog ? selectedLog.id : 0" :log-id="selectedLog.id" :saunaName="selectedLog.name" v-if="selectedLog"></sauna-map>
       </v-dialog>
       <v-toolbar-title>サウナリスト一覧</v-toolbar-title>
       <v-spacer></v-spacer>
@@ -157,10 +157,15 @@ export default {
       }
     },
     selectLog(log) {
-    this.selectedLog = log;
-    console.log(this.selectedLog);
-    this.dialog = true;
-    console.log(this.dialog);
+      this.resetDialog();
+      this.$nextTick(() => {
+        this.selectedLog = log;
+        this.dialog = true;
+      })
+    },
+    resetDialog() {
+      this.selectedLog = null;
+      this.dialog = false;
     },
   }
 }  
