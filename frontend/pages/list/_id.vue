@@ -4,7 +4,7 @@
   <v-layout align-center justify-center>
     <v-card elevation="16" width="600px" class="mx-auto mt-5" color="" shaped>
       <v-card-title>
-        <h2 class="mx-auto">登録データの編集</h2>
+        <h4 class="mx-auto">サウナログの詳細ページ</h4>
       </v-card-title>
       <v-card-text>
         <v-form>
@@ -51,20 +51,28 @@
               class="font-weight-bold"
               >戻る</v-btn
             >
-            
           </v-card-actions>
         </v-form>
       </v-card-text>
+      <div>
+        <sauna-map :key="log ? log.id : 0" :log-id="log.id" :saunaName="log.name"></sauna-map>
+      </div>
     </v-card>
   </v-layout>
 </template>
 
 <script>
+import SaunaMap from '@/components/SaunaMap';
+
+
 export default {
   head() {
     return {
       title: 'Saunalog-Edit'
     }
+  },
+  components: {
+    SaunaMap,
   },
   data() {
     return {
