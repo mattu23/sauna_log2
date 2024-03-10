@@ -31,7 +31,7 @@
           <v-list dense>
             <v-list-item-group>
               <div id="map-section">
-                <v-list-item v-for="log in saunaLogs" :key="log.id" @click="selectLog(log)">
+                <v-list-item v-for="log in saunaLogs" :key="log.id" :to="`/list/${log.id}`">
                 <v-list-item-content>
                   <v-list-item-title  style="font-size: 16px;">{{ log.name }}</v-list-item-title>
                   <v-list-item-subtitle>エリア：{{ log.area }}</v-list-item-subtitle>
@@ -40,12 +40,9 @@
                   <v-list-item-subtitle>投稿者：{{ log.user.username }}</v-list-item-subtitle>
                 </v-list-item-content>
                 <v-list-item-action v-if="user && user.roles && (user.roles.some(role => role.name === 'admin') || log.user.id === user.id)">
-                  <v-btn icon :to="`/list/${log.id}`">
-                    <v-icon color="green">mdi-pencil</v-icon>
-                  </v-btn>
-                  <v-btn icon @click="() => deleteLog(log.id)">
+                <v-btn icon @click="() => deleteLog(log.id)">
                     <v-icon color="red">mdi-delete</v-icon>
-                  </v-btn>
+                </v-btn>
                 </v-list-item-action>
               </v-list-item>
              </div>
