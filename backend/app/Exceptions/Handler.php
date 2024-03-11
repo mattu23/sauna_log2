@@ -27,6 +27,8 @@ class Handler extends ExceptionHandler
             return response()->json(['message' => $exception->getMessage()], 401);
         } elseif ($exception instanceof \App\Exceptions\NotFoundException) {
             return response()->json(['message' => $exception->getMessage()], 404);
+        } elseif ($exception instanceof \Illuminate\Auth\Access\AuthorizationException) {
+            return response()->json(['message' => 'Admin権限を持つユーザーか、作成者しか編集・削除できません。権限を今一度お確かめください。'], 403);
         }
         // その他の例外に対するデフォルトの処理を維持
         return parent::render($request, $exception);

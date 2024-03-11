@@ -72,8 +72,8 @@ class SaunalogController extends Controller
     //特定のサウナログの編集
     public function update($id, UpdateSaunalogRequest $request)
     {
-        // $saunalog = Saunalog::findOrFail($id); // IDを使ってサウナログのインスタンスを取得
-        // $this->authorize('update', $saunalog); 
+        $saunalog = Saunalog::findOrFail($id); // IDを使ってサウナログのインスタンスを取得
+        $this->authorize('update', $saunalog); 
         try {
             return $this->saunalogService->updateLogById($id, $request->validated());
         } catch(NotFoundException $e) {
