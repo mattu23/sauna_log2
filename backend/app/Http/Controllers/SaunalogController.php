@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use App\Models\Saunalog;
 use App\Models\User;
 use App\Http\Requests\CreateSaunalogRequest; 
@@ -72,8 +74,8 @@ class SaunalogController extends Controller
     //特定のサウナログの編集
     public function update($id, UpdateSaunalogRequest $request)
     {
-        $saunalog = Saunalog::findOrFail($id); // IDを使ってサウナログのインスタンスを取得
-        $this->authorize('update', $saunalog); 
+        // $saunalog = Saunalog::findOrFail($id); // IDを使ってサウナログのインスタンスを取得
+        // $this->authorize('update', $saunalog); 
         try {
             return $this->saunalogService->updateLogById($id, $request->validated());
         } catch(NotFoundException $e) {
@@ -92,5 +94,42 @@ class SaunalogController extends Controller
         } catch(NotFoundException $e) {
             return response()->json(['message' => $e->getMessage()], 404);
         }
+    }
+
+
+    //サウナログのCSV出力
+    public function csvDownload()
+    {
+        $user = Auth::user();
+        $fileName = 'saunalogs.csv';
+
+        $headers = [
+            "Content-Type" => "text/csv",
+            "Content-Disposition" => "attachment; filename={$fileName}",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "no-store, no-cache, must-revalidate",
+            "Expires" => "0"
+        ];
+
+        $columns = ['Log Id', 'name', 'area', 'rank', 'Comment', 'Username'];
+
+        $callback = function() use ($user, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($user->saunalogs as $log) {
+                $row = [
+                    $log->id,
+                    $log->name,
+                    $log->area,
+                    $log->rank,
+                    $log->comment,
+                    $user->username,
+                ];
+                fputcsv($file, $row);
+            }
+            fclose($file);
+        };
+        return new StreamedResponse($callback, 200, $headers);
     }
 }
