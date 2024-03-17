@@ -57,4 +57,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //サウナログの削除
     Route::delete('/saunalog/{id}', [SaunalogController::class, 'delete']);
+
+    //CSV出力
+    Route::get('/saunalogs-csv', [SaunalogController::class, 'csvDownload']);
 });

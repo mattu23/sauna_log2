@@ -3,48 +3,56 @@
     "name": "editPassword",
     "path": "/editPassword",
     "component": "/Users/matsushitahiroki/Documents/codefile/sauna_log2/sauna_log/frontend/pages/editPassword.vue",
-    "chunkName": "pages/editPassword"
+    "chunkName": "pages/editPassword",
+    "_name": "_5cce9434"
   },
   {
     "name": "editUser",
     "path": "/editUser",
     "component": "/Users/matsushitahiroki/Documents/codefile/sauna_log2/sauna_log/frontend/pages/editUser.vue",
-    "chunkName": "pages/editUser"
+    "chunkName": "pages/editUser",
+    "_name": "_9e77d438"
   },
   {
     "name": "list",
     "path": "/list",
     "component": "/Users/matsushitahiroki/Documents/codefile/sauna_log2/sauna_log/frontend/pages/list/index.vue",
-    "chunkName": "pages/list/index"
+    "chunkName": "pages/list/index",
+    "_name": "_75858560"
   },
   {
     "name": "register",
     "path": "/register",
     "component": "/Users/matsushitahiroki/Documents/codefile/sauna_log2/sauna_log/frontend/pages/register.vue",
-    "chunkName": "pages/register"
+    "chunkName": "pages/register",
+    "_name": "_7917f6dc"
   },
   {
     "name": "auth-login",
     "path": "/auth/login",
     "component": "/Users/matsushitahiroki/Documents/codefile/sauna_log2/sauna_log/frontend/pages/auth/login.vue",
-    "chunkName": "pages/auth/login"
+    "chunkName": "pages/auth/login",
+    "_name": "_157ac8f1"
   },
   {
     "name": "auth-signUp",
     "path": "/auth/signUp",
     "component": "/Users/matsushitahiroki/Documents/codefile/sauna_log2/sauna_log/frontend/pages/auth/signUp.vue",
-    "chunkName": "pages/auth/signUp"
+    "chunkName": "pages/auth/signUp",
+    "_name": "_a0c5a340"
   },
   {
     "name": "index",
     "path": "/",
     "component": "/Users/matsushitahiroki/Documents/codefile/sauna_log2/sauna_log/frontend/pages/index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_e654061a"
   },
   {
     "name": "list-id",
     "path": "/list/:id",
     "component": "/Users/matsushitahiroki/Documents/codefile/sauna_log2/sauna_log/frontend/pages/list/_id.vue",
-    "chunkName": "pages/list/_id"
+    "chunkName": "pages/list/_id",
+    "_name": "_5acb5890"
   }
 ]
