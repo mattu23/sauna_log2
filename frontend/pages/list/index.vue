@@ -27,6 +27,7 @@
     <v-layout justify-center>
       <v-card class="mx-auto"> 
         <v-btn to="/register" class="primary my-5" min-width="200" style="margin: 10px;">サウナログの新規登録</v-btn>
+        <v-btn color="success" @click="exportCsv" class="my-3">CSV出力</v-btn>
         <v-container>
           <v-list dense>
             <v-list-item-group>
@@ -127,6 +128,31 @@ export default {
           }
         }
       }
+    },
+    exportCsv() {
+      const today = new Date().toISOString().slice(0, 10);
+      const fileName = `saunalogs-${today}.csv`;
+
+      this.$axios({
+        url: `${process.env.API_ENDPOINT}/saunalogs-csv`,
+        method: 'GET',
+        responseType: 'blob',
+      }).then((response) => {
+        if(!response || !response.data) {
+          alert('CSVデータの取得に失敗しました。もう一度お試しください。');
+          return;
+        }
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', fileName);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }).catch((error) => {
+        console.error('CSV出力エラー: ', error);
+        alert('CSV出力に失敗しました。');
+      });
     },
     async logout() {
       try {
