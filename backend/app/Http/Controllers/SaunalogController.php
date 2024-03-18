@@ -115,7 +115,9 @@ class SaunalogController extends Controller
 
         $callback = function() use ($user, $columns) {
             $file = fopen('php://output', 'w');
-            fputcsv($file, $columns);
+            fputcsv($file, array_map(function($col) {
+                return mb_convert_encoding($col, 'SJIS-win', 'UTF-8');
+            }, $columns));
 
             foreach ($user->saunalogs as $log) {
                 $row = [
@@ -126,7 +128,9 @@ class SaunalogController extends Controller
                     $log->comment,
                     $user->username,
                 ];
-                fputcsv($file, $row);
+                fputcsv($file, array_map(function($cell) {
+                    return mb_convert_encoding($cell, 'SJIS-win', 'UTF-8');
+                }, $row));
             }
             fclose($file);
         };
